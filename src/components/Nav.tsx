@@ -9,7 +9,7 @@ const nabla = Nabla({
 
 export default function Nav() {
   return (
-    <nav className="flex justify-between items-center px-4 py-3 bg-zinc-900 my-3 mx-3 rounded-xl shadow-zinc-800 shadow">
+    <nav className="flex justify-between items-center px-4 py-3 bg-zinc-900 shadow-zinc-800 shadow">
       <Link href="/" className={`text-2xl ${nabla.className}`}>
         Where&apos;s Wally?
       </Link>
