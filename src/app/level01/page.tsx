@@ -6,8 +6,9 @@ import harry_potter from ".././../../public/Level01/harry_potter.png";
 import billy_cipher from ".././../../public/Level01/billy_cipher.webp";
 import Image, { StaticImageData } from "next/image";
 import Level01 from "../../../public/Level01/egor-klyuchnyk-small.jpeg";
+import MiniMenu from "@/components/miniMenu";
 
-interface Characters {
+export interface Characters {
   name: string;
   img: StaticImageData;
   x: number;
@@ -21,7 +22,8 @@ interface Characters {
 export default function Page() {
   const [charactersShowcase, setCharactersShowcase] = useState(true);
   const [timer, setTimer] = useState(0);
-  const [circle, setCircle] = useState(null);
+  const [openMiniMenu, setOpenMiniMenu] = useState(false);
+  const [coords, setCoords] = useState<any>(null);
   const characters: Array<Characters> = [
     {
       name: "Jake",
@@ -81,16 +83,20 @@ export default function Page() {
       </button>
     </div>
   ) : (
-    <div>
+    <div className="relative">
       <Image
         src={Level01}
         alt="Level01"
         className="w-screen h-auto"
         onClick={(e) => {
-          const xPosition = document.body.scrollWidth / e.pageX;
-          const yPosition = document.body.scrollHeight / e.pageY;
+          const newCoords = {
+            xPosition: document.body.scrollWidth / e.pageX,
+            yPosition: document.body.scrollHeight / e.pageY,
+          };
+          setCoords(newCoords);
         }}
       />
+      {openMiniMenu ? <MiniMenu characters={characters}/>}
     </div>
   );
 }
