@@ -12,6 +12,10 @@ interface Characters {
   img: StaticImageData;
   x: number;
   y: number;
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
 }
 
 export default function Page() {
@@ -22,60 +26,34 @@ export default function Page() {
     {
       name: "Jake",
       img: jake,
-      x: 6.95,
-      y: 2.9,
+      x: 6.87,
+      y: 1.92,
+      maxX: 7.1,
+      minX: 6.72,
+      minY: 1.88,
+      maxY: 1.96,
     },
     {
       name: "Harry Potter",
       img: harry_potter,
-      x: 3.8,
-      y: 1.6,
+      x: 3.75,
+      y: 1.15,
+      maxX: 3.85,
+      minX: 3.65,
+      minY: 1.13,
+      maxY: 1.16,
     },
     {
       name: "Billy Cipher",
       img: billy_cipher,
       x: 1.4,
-      y: 2.3,
+      y: 1.5,
+      maxX: 1.42,
+      minX: 1.39,
+      minY: 1.49,
+      maxY: 1.53,
     },
   ];
-  const getClickCoords = (event: MouseEvent) => {
-    if (event != null) {
-      let e = event.target;
-      let dim = e.getBoundingClientRect();
-      let x = event.clientX - dim.left;
-      let y = event.clientY - dim.top;
-      return [x, y];
-    }
-  };
-
-  const addCircle = (event: MouseEvent) => {
-    let [x, y] = getClickCoords(event);
-    const screenWidth = window.innerWidth;
-    const screenHeight = screen.height;
-    const radius = (0.032552 * screenWidth) / 2;
-
-    const adjustY = -1.25 * radius + 0.1 * screenHeight;
-
-    let newCircle: ReactElement = (
-      <div
-        className={`absolute rounded-full  z-10 border-dashed border-4 border-red-600`}
-        style={{
-          width: 2 * radius,
-          height: 2 * radius,
-          top: y + adjustY,
-          left: x - radius,
-        }}
-      ></div>
-    );
-    setCircle(newCircle);
-    return {
-      center: [
-        (x + radius) / (screenWidth / 1920),
-        (y - radius) / (screenWidth / 1920),
-      ],
-      radius: 70,
-    };
-  };
 
   return charactersShowcase ? (
     <div className="flex flex-col items-center gap-5 mt-5">
@@ -109,7 +87,8 @@ export default function Page() {
         alt="Level01"
         className="w-screen h-auto"
         onClick={(e) => {
-          addCircle(e);
+          const xPosition = document.body.scrollWidth / e.pageX;
+          const yPosition = document.body.scrollHeight / e.pageY;
         }}
       />
     </div>
