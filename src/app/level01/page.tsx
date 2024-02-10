@@ -6,7 +6,7 @@ import harry_potter from ".././../../public/Level01/harry_potter.png";
 import billy_cipher from ".././../../public/Level01/billy_cipher.webp";
 import Image, { StaticImageData } from "next/image";
 import Level01 from "../../../public/Level01/egor-klyuchnyk-small.jpeg";
-import MiniMenu from "@/components/miniMenu";
+import MiniMenu from "@/components/MiniMenu";
 
 export interface Characters {
   name: string;
@@ -24,7 +24,7 @@ export default function Page() {
   const [timer, setTimer] = useState(0);
   const [openMiniMenu, setOpenMiniMenu] = useState(false);
   const [coords, setCoords] = useState<any>(null);
-  const characters: Array<Characters> = [
+  const [characters, setCharacters] = useState<Array<Characters>>([
     {
       name: "Jake",
       img: jake,
@@ -55,7 +55,18 @@ export default function Page() {
       minY: 1.49,
       maxY: 1.53,
     },
-  ];
+  ]);
+
+  const handleGoodChoice = (pickedCharacter: String) => {
+    let newCharacters: Array<Characters>;
+    if (pickedCharacter) {
+      newCharacters = characters.filter(
+        (character) => character.name != pickedCharacter
+      );
+      setCharacters(newCharacters);
+    }
+    setOpenMiniMenu((prevValue) => !prevValue);
+  };
 
   return charactersShowcase ? (
     <div className="flex flex-col items-center gap-5 mt-5">
@@ -92,11 +103,22 @@ export default function Page() {
           const newCoords = {
             xPosition: document.body.scrollWidth / e.pageX,
             yPosition: document.body.scrollHeight / e.pageY,
+            x: e.pageX,
+            y: e.pageY,
           };
           setCoords(newCoords);
+          setOpenMiniMenu((prevValue) => !prevValue);
         }}
       />
-      {openMiniMenu ? <MiniMenu characters={characters}/>}
+      {openMiniMenu ? (
+        <MiniMenu
+          characters={characters}
+          coords={coords}
+          handleGoodChoice={handleGoodChoice}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
