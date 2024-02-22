@@ -1,13 +1,12 @@
 "use client";
 
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import jake from ".././../../public/Level01/jake.webp";
 import harry_potter from ".././../../public/Level01/harry_potter.png";
 import billy_cipher from ".././../../public/Level01/billy_cipher.webp";
 import Image, { StaticImageData } from "next/image";
 import Level01 from "../../../public/Level01/egor-klyuchnyk-small.jpeg";
 import MiniMenu from "@/components/MiniMenu";
-
 export interface Characters {
   name: string;
   img: StaticImageData;
@@ -20,8 +19,9 @@ export interface Characters {
 }
 
 export default function Page() {
-  const [charactersShowcase, setCharactersShowcase] = useState(true);
   const [timer, setTimer] = useState(0);
+  const [game, setGame] = useState(false);
+  const [charactersShowcase, setCharactersShowcase] = useState(true);
   const [openMiniMenu, setOpenMiniMenu] = useState(false);
   const [coords, setCoords] = useState<any>(null);
   const [characters, setCharacters] = useState<Array<Characters>>([
@@ -57,6 +57,27 @@ export default function Page() {
     },
   ]);
 
+  useEffect(() => {
+    if (characters.length == 0) {
+      setGame(false);
+    }
+    let intervalId: any;
+    if (game) {
+      intervalId = setInterval(() => setTimer(timer + 1), 10);
+    } else {
+      if (timer != 0) {
+        const miliseconds = timer % 100;
+        const seconds = Math.floor((timer % 6000) / 100);
+        const minutes = Math.floor((timer % 360000) / 6000);
+        const finalTime = `${minutes}:${seconds}:${miliseconds}`;
+        alert("Good job! Your final time was: " + finalTime);
+      }
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [characters, timer, game]);
+
   const handleGoodChoice = (pickedCharacter: String) => {
     let newCharacters: Array<Characters>;
     if (pickedCharacter) {
@@ -87,38 +108,41 @@ export default function Page() {
       <button
         className="border border-gray-500 hover:border-inherit rounded-lg px-7 py-3 bg-zinc-900"
         onClick={() => {
-          setCharactersShowcase(false);
+          setCharactersShowcase((prevState) => !prevState);
+          setGame(true);
         }}
       >
         Okay
       </button>
     </div>
   ) : (
-    <div className="relative">
-      <Image
-        src={Level01}
-        alt="Level01"
-        className="w-screen h-auto"
-        onClick={(e) => {
-          const newCoords = {
-            xPosition: document.body.scrollWidth / e.pageX,
-            yPosition: document.body.scrollHeight / e.pageY,
-            x: e.pageX,
-            y: e.pageY,
-          };
-          setCoords(newCoords);
-          setOpenMiniMenu((prevValue) => !prevValue);
-        }}
-      />
-      {openMiniMenu ? (
-        <MiniMenu
-          characters={characters}
-          coords={coords}
-          handleGoodChoice={handleGoodChoice}
+    <>
+      <div className="relative">
+        <Image
+          src={Level01}
+          alt="Level01"
+          className="w-screen h-auto"
+          onClick={(e) => {
+            const newCoords = {
+              xPosition: document.body.scrollWidth / e.pageX,
+              yPosition: document.body.scrollHeight / e.pageY,
+              x: e.pageX,
+              y: e.pageY,
+            };
+            setCoords(newCoords);
+            setOpenMiniMenu((prevValue) => !prevValue);
+          }}
         />
-      ) : (
-        ""
-      )}
-    </div>
+        {openMiniMenu ? (
+          <MiniMenu
+            characters={characters}
+            coords={coords}
+            handleGoodChoice={handleGoodChoice}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+    </>
   );
 }
