@@ -18,8 +18,7 @@ export default function MiniMenu({
 }: Props) {
   const newX =
     coords.x >= document.body.scrollWidth - 100 ? coords.x - 100 : coords.x;
-  const newY =
-    coords.y >= document.body.scrollHeight - 100 ? coords.y - 200 : coords.y;
+  const newY = coords.y >= window.innerHeight - 100 ? coords.y - 200 : coords.y;
   return (
     <div
       className={`flex flex-col max-w-max bg-neutral-900 absolute`}
