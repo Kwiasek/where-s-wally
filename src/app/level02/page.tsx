@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import jake from ".././../../public/Level01/jake.webp";
-import harry_potter from ".././../../public/Level01/harry_potter.png";
-import billy_cipher from ".././../../public/Level01/billy_cipher.webp";
+import cj from ".././../../public/Level02/cj.png";
+import aang from ".././../../public/Level02/aang.png";
+import deadpool from ".././../../public/Level02/deadpool.png";
 import Level02 from "../../../public/Level02/egor-klyuchnyk-web-hd.jpeg";
 import Level from "@/components/Level";
 
@@ -12,7 +12,7 @@ export default function Page() {
   const charactersList = [
     {
       name: "Carl Johnson",
-      img: jake,
+      img: cj,
       x: 3.3,
       y: 8.34,
       maxX: 3.51,
@@ -22,7 +22,7 @@ export default function Page() {
     },
     {
       name: "Aang",
-      img: harry_potter,
+      img: aang,
       x: 1.18,
       y: 3.10,
       maxX: 1.22,
@@ -32,7 +32,7 @@ export default function Page() {
     },
     {
       name: "Deadpool",
-      img: billy_cipher,
+      img: deadpool,
       x: 1.4,
       y: 1.5,
       maxX: 1.08,
