@@ -1,4 +1,4 @@
-import { Characters } from "@/app/level01/page";
+import { Characters } from "@/app/interfaces/characters";
 
 interface Props {
   characters: Array<Characters>;
@@ -36,11 +36,11 @@ export default function MiniMenu({
                 onClick={() => {
                   if (
                     character.minX <= coords.xPosition &&
-                    coords.xPosition <= character.maxX
+                    character.maxX >= coords.xPosition
                   ) {
                     if (
                       character.minY <= coords.yPosition &&
-                      coords.yPosition <= character.maxY
+                      character.maxY >= coords.yPosition
                     ) {
                       handleGoodChoice(character.name);
                     }

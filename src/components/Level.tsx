@@ -5,12 +5,12 @@ import Image, {StaticImageData} from "next/image";
 import MiniMenu from "@/components/MiniMenu";
 import { Characters } from "@/app/interfaces/characters";
 
-interface propTypes {
+interface Props {
   charactersList: Array<Characters>,
   levelImages: Array<StaticImageData>
   levelNumber: number
 }
-export default function Level({charactersList, levelImages, levelNumber}:propTypes) {
+export default function Level({charactersList, levelImages, levelNumber}:Props) {
   const [timer, setTimer] = useState(0);
   const [game, setGame] = useState(false);
   const [charactersShowcase, setCharactersShowcase] = useState(true);
@@ -79,10 +79,11 @@ export default function Level({charactersList, levelImages, levelNumber}:propTyp
   ) : (
     <>
       <div className="relative">
-        {levelImages.map((level) => {
+        {levelImages.map((level, id) => {
           return (
             <Image
               src={level}
+              key={id}
               alt="Level"
               className="w-screen h-auto"
               onClick={(e) => {
@@ -92,6 +93,7 @@ export default function Level({charactersList, levelImages, levelNumber}:propTyp
                   x: e.pageX,
                   y: e.pageY,
                 };
+                alert(`x: ${newCoords.xPosition} y: ${newCoords.yPosition}`);
                 setCoords(newCoords);
                 setOpenMiniMenu((prevValue) => !prevValue);
               }}
