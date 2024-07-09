@@ -93,7 +93,6 @@ export default function Level({charactersList, levelImages, levelNumber}:Props) 
                   x: e.pageX,
                   y: e.pageY,
                 };
-                alert(`x: ${newCoords.xPosition} y: ${newCoords.yPosition}`);
                 setCoords(newCoords);
                 setOpenMiniMenu((prevValue) => !prevValue);
               }}
